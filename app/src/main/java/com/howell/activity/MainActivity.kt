@@ -3,8 +3,6 @@ package com.howell.activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
-import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.howell.service.AliveService
@@ -33,6 +31,8 @@ class MainActivity :AppCompatActivity(){
 
     @OnClick(R.id.main_btn_test)
     fun testClick(){
-        startActivity(Intent(this,FaceMain::class.java))
+//        startActivity(Intent(this,FaceMain::class.java))
+//        startActivity(Intent(this,FaceActivity::class.java))
+        startActivity(Intent(this,HistoryActiviy::class.java))
     }
 }

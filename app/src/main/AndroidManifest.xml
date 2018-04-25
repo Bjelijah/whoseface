@@ -32,6 +32,12 @@
             android:theme="@style/MyAppPush"
             />
 
+        <activity android:name="com.howell.activity.FaceActivity"
+            android:theme="@style/MyAppPush"
+            android:launchMode="singleTask"
+            />
+
+
         <service android:name="com.howell.service.AliveService"
             android:enabled="true"
             android:exported="false"

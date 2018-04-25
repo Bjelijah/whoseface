@@ -6,7 +6,6 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.View
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.howell.whoseface.R
@@ -50,6 +49,7 @@ class FaceMain :AppCompatActivity(),AppBarLayout.OnOffsetChangedListener {
             if(mIsImageHidden){
                 mIsImageHidden = false
                 ViewCompat.animate(mFb).scaleY(1f).scaleX(1f).start()
+
             }
 
         }

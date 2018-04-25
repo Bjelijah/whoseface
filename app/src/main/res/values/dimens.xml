@@ -8,4 +8,14 @@
     <dimen name="push_setting_margin_vertical_item">10dp</dimen>
     <dimen name="push_setting_push_item">20sp</dimen>
     <dimen name="push_setting_push_sub_item">15sp</dimen>
+
+
+    <dimen name="image_width">120dp</dimen>
+    <dimen name="image_final_width">32dp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
+
+    <dimen name="item_history_vertical_margin">16dp</dimen>
+    <dimen name="item_history_card_radius">4dp</dimen>
+    <dimen name="item_history_layout_margin">8dp</dimen>
+    <dimen name="item_history_card_elevation">10dp</dimen>
 </resources>
