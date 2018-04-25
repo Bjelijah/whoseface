@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="push_set_vertical">23dp</dimen>
+    <dimen name="push_set_horizontal">16dp</dimen>
+    <dimen name="push_setting_push_title">23sp</dimen>
+    <dimen name="push_setting_margin_vertcail_ctrl">23dp</dimen>
+    <dimen name="push_setting_margin_vertical_item">10dp</dimen>
+    <dimen name="push_setting_push_item">20sp</dimen>
+    <dimen name="push_setting_push_sub_item">15sp</dimen>
+</resources>

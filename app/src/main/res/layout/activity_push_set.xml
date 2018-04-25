@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/MyAppPush"
+    android:background="@color/main_bk"
+    >
+
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/push_set_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            android:minHeight="@dimen/abc_action_bar_default_height_material"
+            android:background="@color/colorPrimaryDark"
+            >
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/push_form"
+        android:paddingTop="@dimen/push_set_vertical"
+        android:paddingBottom="5dp"
+        android:paddingLeft="@dimen/push_set_horizontal"
+        android:paddingRight="@dimen/push_set_horizontal"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/push_setting_margin_vertcail_ctrl"
+                >
+                <TextView
+                    android:id="@+id/push_setting_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/push_setting_push_service"
+                    android:textSize="@dimen/push_setting_push_title"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:textStyle="bold"
+                    android:textColor="@color/textColor"
+                    />
+                <!---->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_report_problem_white_24dp"
+                    android:layout_toRightOf="@id/push_setting_title"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    />
+
+            </RelativeLayout>
+
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/push_setting_margin_vertical_item"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/push_setting_card"
+
+                >
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/push_setting_push_description"
+                        android:textSize="@dimen/push_setting_push_sub_item"
+                        android:textColor="@color/textColor"
+                        />
+
+
+
+
+                </FrameLayout>
+            </android.support.v7.widget.CardView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/push_setting_margin_vertcail_ctrl">
+
+                <TextView
+                    android:id="@+id/push_set_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/push_setting_service_onoff"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="@dimen/push_setting_push_item"
+                    android:textColor="@color/textColor"
+                    />
+                <Switch
+                    android:id="@+id/push_set_sw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerHorizontal="true"
+                    android:textOn="@string/push_setting_open"
+                    android:textOff="@string/push_setting_close"
+                    />
+
+
+            </RelativeLayout>
+
+
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
+
+
+
+</LinearLayout>

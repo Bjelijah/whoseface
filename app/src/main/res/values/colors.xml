@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="white">#ffffff</color>
+    <color name="white_highlight">#EDF0F1</color>
+    <color name="transparent">#00000000</color>
+    <color name="gold">#b89766</color>
+    <color name="black">#000000</color>
+    <color name="body">#D1DCE8</color>
+    <color name="title">#1D75A8</color>
+    <color name="tab_bottom">#43A0D6</color>
+    <color name="add_more">#E6E6E6</color>
+    <color name="red">#FF0000</color>
+    <color name="green">#04F927</color>
+    <color name="gray">#A7A8A9</color>
+    <color name="blue">#007AFF</color>
+    <color name="light_gray">#BABABA</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#00bcd4</color>
+    <color name="colorPrimaryLight">#c5cae9</color>
+    <color name="textPrimary">#212121</color>
+    <color name="textSecondary">#757575</color>
+    <color name="textColor">#ffffff</color>
+    <color name="dividerColor">#bdbdbd</color>
+
+    <color name="main_bk">#183169</color>
+    <color name="alpha_white">#aaeeeeee</color>
+    <color name="register_bk">#497d46</color>
+
+    <color name="push_setting_card">#88183169</color>
+    <color name="face_main_iv_tint">#BB3E50B4</color>
+
 </resources>
