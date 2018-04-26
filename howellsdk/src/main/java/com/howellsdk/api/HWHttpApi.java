@@ -603,4 +603,31 @@ public interface HWHttpApi {
             @Header("Cookie")               String cookie,
             @Path("id")                     String id);
 
+    /****************************************************
+     * face
+     *************************************************/
+    @GET("howell/ver10/facedetect_service/System/Version")
+    Observable<FaceServiceVersion> queryFaceVersion(@Header("Cookie") String cookie);
+
+
+    @GET("howell/ver10/facedetect_service/System/MainPage/Layout")
+    Observable<FaceMainPageLayout> queryFaceMainPageLayout(
+            @Header("Cookie")               String cookie
+    );
+
+    @Headers("Content-Type:application/json;charset=utf-8")
+    @PUT("howell/ver10/facedetect_service/System/MainPage/Layout")
+    Observable<Fault> updataFaceMainPageLayout(
+            @Header("Cookie") String cookie,
+            @Body MainPageLayout layout);
+
+    @GET("howell/ver10/facedetect_service/System/Devices/Searching/{id}")
+    Observable<FaceDetectDevice> queryFaceDetectDevice(
+            @Header("Cookie")               String cookie,
+            @Path("id")                     String id
+    );
+
+    @Headers("Content-Type:application/json;charset=utf-8")
+    @POST("howell/ver10/facedetect_service/System/Devices/Searching/{id}")
+    Observable<Fault> doFaceDetectdevice();
 }
