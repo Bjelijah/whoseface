@@ -3,7 +3,7 @@
     package="com.howell.whoseface">
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <!--android:debuggable="false"-->
     <!--tools:ignore="HardcodedDebugMode"-->

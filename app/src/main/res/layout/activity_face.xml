@@ -39,14 +39,20 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:src="@drawable/face1"
+                    android:scaleType="centerCrop"
                     />
+
+                <android.support.v4.widget.Space
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent" />
 
                 <ImageView
                     android:id="@+id/face_face2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/face2"/>
+                    android:src="@drawable/face2"
+                    android:scaleType="centerCrop"/>
 
             </LinearLayout>
 

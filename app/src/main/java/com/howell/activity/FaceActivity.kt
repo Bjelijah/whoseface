@@ -17,6 +17,9 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.howell.bean.FaceBean
 import com.howell.whoseface.R
+import com.squareup.picasso.Picasso
+import io.reactivex.Observable
+import io.reactivex.ObservableOnSubscribe
 import org.w3c.dom.Text
 
 class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener{
@@ -96,9 +99,15 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener{
         mBean = intent?.getSerializableExtra("face_bean") as FaceBean?
         print("mBean= $mBean")
         //TODO do in thread
-        mIvFace1.setImageDrawable(getDrawable(R.drawable.face1))
-        mIvFace2.setImageDrawable(getDrawable(R.drawable.face2))
-        mIvCircle.setImageDrawable(getDrawable(R.drawable.face2))
+        var url1 = mBean?.imageUrl1
+        var url2 = mBean?.imageUrl2
+
+        Log.i("123","url1=$url1        url2=$url2" )
+        var p = Picasso.Builder(this).build()
+        p.load(url1).into(mIvFace1)
+        p.load(url1).into(mIvCircle)
+        p.load(url2).into(mIvFace2)
+
         ////
 
 

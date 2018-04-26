@@ -40,8 +40,10 @@ class MainActivity :AppCompatActivity(){
         b.age = 53
         b.sex = "男"
         b.group = ""
+        b.imageUrl1 = "http://192.168.21.240:8800/DSC02453.jpg"
+        b.imageUrl2 = "http://192.168.21.240:8800/DSC02455.jpg"
         intent.putExtra("face_bean",b)
-//        startActivity(intent)
-        startActivity(Intent(this,HistoryActiviy::class.java))
+        startActivity(intent)
+//        startActivity(Intent(this,HistoryActiviy::class.java))
     }
 }
