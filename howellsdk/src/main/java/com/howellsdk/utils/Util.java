@@ -3,9 +3,9 @@ package com.howellsdk.utils;
 import org.codehaus.jackson.map.util.ISO8601DateFormat;
 import org.codehaus.jackson.map.util.ISO8601Utils;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -14,7 +14,7 @@ import java.util.Random;
  */
 
 public class Util {
-    public static String Date2ISODate(Date date){
+    public static String Date2ISODateString(Date date){
         ISO8601DateFormat isoDate = new ISO8601DateFormat();
         String isoString = isoDate.format(date);
 //        Log.i("123", "isoDate:"+isoString);
@@ -82,6 +82,28 @@ public class Util {
         }
         return str;
     }
+
+    public static Date plusMonth(Date date,int month){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.MONTH,cal.get(Calendar.MONTH)+month);
+        return cal.getTime();
+    }
+
+    public static Date plusDay(Date date,int day){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.DATE,cal.get(Calendar.DATE)+day);
+        return cal.getTime();
+    }
+
+    public static Date plusMinute(Date date,int min){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.MINUTE,cal.get(Calendar.MINUTE)+min);
+        return cal.getTime();
+    }
+
 
     public static String createClientNonce(int length){
         String str="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

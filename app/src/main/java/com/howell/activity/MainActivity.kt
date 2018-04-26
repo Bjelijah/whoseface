@@ -42,7 +42,9 @@ class MainActivity :AppCompatActivity(){
         b.group = ""
         b.imageUrl1 = "http://192.168.21.240:8800/DSC02453.jpg"
         b.imageUrl2 = "http://192.168.21.240:8800/DSC02455.jpg"
-        intent.putExtra("face_bean",b)
+//        intent.putExtra("face_bean",b)
+        intent.putExtra("id","asdf")
+        intent.putExtra("time","")
         startActivity(intent)
 //        startActivity(Intent(this,HistoryActiviy::class.java))
     }

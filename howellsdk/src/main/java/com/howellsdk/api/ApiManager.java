@@ -443,7 +443,8 @@ public class ApiManager {
             PDC_GROUP_THRESHOLD,
             PDC_FLAVOURS,
             PDC_EVENTS_RECORDS,
-            PDC_USERS
+            PDC_USERS,
+            FACE_EVENTS_RECORDS
         }
         public enum DeviceClassification{
             NONE("None"),
@@ -552,6 +553,7 @@ public class ApiManager {
                 case PDC_FLAVOURS:action="GET:/howell/ver10/pdc_service/System/Flavours"+(params.length>0?"/"+params[0]:"")+":";break;
                 case PDC_EVENTS_RECORDS:action="GET:/howell/ver10/pdc_service/System/Events/Records:";break;
                 case PDC_USERS:action="GET:/howell/ver10/pdc_service/System/Users"+(params.length>0?"/"+params[0]:"")+":";break;
+                case FACE_EVENTS_RECORDS:action="GET:/howell/ver10/facedetect_service/System/Events/Records"+(params.length>0?"/"+params[0]:"")+":";break;
                 default:
                     break;
             }

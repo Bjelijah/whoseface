@@ -618,16 +618,210 @@ public interface HWHttpApi {
     @Headers("Content-Type:application/json;charset=utf-8")
     @PUT("howell/ver10/facedetect_service/System/MainPage/Layout")
     Observable<Fault> updataFaceMainPageLayout(
-            @Header("Cookie") String cookie,
-            @Body MainPageLayout layout);
+            @Header("Cookie")               String cookie,
+            @Body                           MainPageLayout layout);
 
     @GET("howell/ver10/facedetect_service/System/Devices/Searching/{id}")
-    Observable<FaceDetectDevice> queryFaceDetectDevice(
+    Observable<FaceDetectDevice> querySearchFaceDetectDevice(
             @Header("Cookie")               String cookie,
             @Path("id")                     String id
     );
 
-    @Headers("Content-Type:application/json;charset=utf-8")
     @POST("howell/ver10/facedetect_service/System/Devices/Searching/{id}")
-    Observable<Fault> doFaceDetectdevice();
+    Observable<Fault> doSearchFaceDetectDevice(
+            @Header("Cookie")               String cookie,
+            @Path("id")                     String id,
+            @Query("ProtocolType") @NonNull String type,
+            @Query("Timeout")      @Nullable Integer timeout
+    );
+
+    @PUT("howell/ver10/facedetect_service/System/Devices/Searching/{id}")
+    Observable<Fault> updateFaceDetectDevice(
+            @Header("Cookie")                  String cookie,
+            @Path("id")                        String id,
+            @Query("PhysicalAddress") @NonNull String physicalAddress,
+            @Query("IPAddress")       @NonNull String ip,
+            @Query("Submask")         @NonNull String submask,
+            @Query("Gateway")         @NonNull String gateway,
+            @Query("Port")            @NonNull Integer port,
+            @Query("Password")        @Nullable String password
+    );
+
+    @DELETE("howell/ver10/facedetect_service/System/Devices/Searching/{id}")
+    Observable<Fault> stopSearchFaceDetectDevice(
+            @Header("Cookie") String cookie,
+            @Path("id") String id
+    );
+
+    @GET("howell/ver10/facedetect_service/System/Devices/")
+    Observable<FaceDetectDeviceList> queryFaceDevices(
+            @Header("Cookie")                  String cookie,
+            @Query("DeviceId")       @Nullable String deviceId,
+            @Query("PageIndex")      @Nullable String pageIndex,
+            @Query("PageSize")       @Nullable String pageSize
+    );
+
+    @Headers("Content-Type:application/json;charset=utf-8")
+    @POST("howell/ver10/facedetect_service/System/Devices/")
+    Observable<Fault> updateFaceDevice(
+            @Header("Cookie")                  String cookie,
+            @Body                              FaceDetectDevice faceDetectDevice
+    );
+
+    @GET("howell/ver10/facedetect_service/System/Devices/{id}")
+    Observable<FaceDetectDevice> queryFaceDetectDevice(
+            @Header("Cookie")                  String cookie,
+            @Path("id")                        String id
+    );
+
+    @Headers("Content-Type:application/json;charset=utf-8")
+    @PUT("howell/ver10/facedetect_service/System/Devices/{id}")
+    Observable<Fault> updateFaceDetectDevice(
+            @Header("Cookie")                  String cookie,
+            @Path("id")                        String id,
+            @Body                              FaceDetectDevice faceDetectDevice
+    );
+
+    @DELETE("howell/ver10/facedetect_service/System/Devices/{id}")
+    Observable<Fault> deleteFaceDetectDevice(
+            @Header("Cookie")                  String cookie,
+            @Path("id")                        String id
+    );
+
+    @GET("howell/ver10/facedetect_service/System/Devices/{id}/Status")
+    Observable<FaceDetectDeviceStatus> queryFaceDetectDeviceStatus(
+            @Header("Cookie")                  String cookie,
+            @Path("id")                        String id
+    );
+
+    @POST("howell/ver10/facedetect_service/System/Devices/{id}/Status")
+    Observable<Fault> updateFaceDetectDeviceStatus(
+            @Header("Cookie")                  String cookie,
+            @Path("id")                        String id
+    );
+
+    @GET("howell/ver10/facedetect_service/System/Devices/{id}/Threshold")
+    Observable<FaceDetectThreshold> queryFaceDetectThreshold(
+            @Header("Cookie")                  String cookie,
+            @Path("id")                        String id
+    );
+
+    @Headers("Content-Type:application/json;charset=utf-8")
+    @POST("howell/ver10/facedetect_service/System/Devices/{id}/Threshold")
+    Observable<Fault> updateFaceDetectThreshold(
+            @Header("Cookie")                  String cookie,
+            @Path("id")                        String id,
+            @Body                              FaceDetectThreshold faceDetectThreshold
+    );
+
+    @GET("howell/ver10/facedetect_service/System/Groups")
+    Observable<FaceDetectDeviceGroupList> queryFaceDetectDeviceGroups(
+            @Header("Cookie")                  String cookie,
+            @Query("DeviceGroupId")  @Nullable String deviceGroupId,
+            @Query("PageIndex")      @Nullable Integer pageIndex,
+            @Query("pageSize")       @Nullable Integer pageSize
+    );
+
+    @Headers("Content-Type:application/json;charset=utf-8")
+    @POST("howell/ver10/facedetect_service/System/Groups")
+    Observable<Fault> createFaceDetectDeviceGroups(
+            @Header("Cookie")                  String cookie,
+            @Body                              FaceDetectDeviceGroup faceDetectDeviceGroup
+    );
+
+    @GET("howell/ver10/facedetect_service/System/Groups/{id}")
+    Observable<FaceDetectDeviceGroup> queryFaceDetectDeviceGroup(
+            @Header("Cookie")                  String cookie,
+            @Path("id")                        String id
+    );
+
+    @Headers("Content-Type:application/json;charset=utf-8")
+    @PUT("howell/ver10/facedetect_service/System/Groups/{id}")
+    Observable<Fault> updateFaceDetectDeviceGroup(
+            @Header("Cookie")                  String cookie,
+            @Path("id")                        String id,
+            @Body                              FaceDetectDeviceGroup faceDetectDeviceGroup
+    );
+
+    @DELETE("howell/ver10/facedetect_service/System/Groups/{id}")
+    Observable<Fault> deleteFaceDetectDeviceGroup(
+            @Header("Cookie")                  String cookie,
+            @Path("id")                        String id
+    );
+
+    @GET("howell/ver10/facedetect_service/System/Groups/{id}/Status")
+    Observable<FaceDetectDeviceGroupStatus> queryFaceDetectDeviceGroupStatus(
+            @Header("Cookie")                  String cookie,
+            @Path("id")                        String id
+    );
+
+    @POST("howell/ver10/facedetect_service/System/Groups/{id}/Status")
+    Observable<Fault> updateFaceDetectDeviceGroupStatus(
+            @Header("Cookie")                  String cookie,
+            @Path("id")                        String id
+    );
+
+    @GET("howell/ver10/facedetect_service/System/Groups/{id}/Devices")
+    Observable<FaceDetectDeviceList> queryFaceDetectGroupDevices(
+            @Header("Cookie")                  String cookie,
+            @Path("id")                        String id,
+            @Query("PageIndex")    @Nullable   String pageIndex,
+            @Query("PageSize")     @Nullable   String pageSize,
+            @Query("Inversed")     @Nullable   Boolean inversed
+    );
+
+    @GET("howell/ver10/facedetect_service/System/Groups/{groupId}/Devices/{deviceId}")
+    Observable<FaceDetectDevice> queryFaceDetectGroupDevice(
+            @Header("Cookie")                  String cookie,
+            @Path("groupId")                   String groupId,
+            @Path("deviceId")                  String deviceId
+    );
+
+    @POST("howell/ver10/facedetect_service/System/Groups/{groupId}/Devices/{deviceId}")
+    Observable<Fault> createFaceDetectGroupDevice(
+            @Header("Cookie")                  String cookie,
+            @Path("groupId")                   String groupId,
+            @Path("deviceId")                  String deviceId
+    );
+
+    @DELETE("howell/ver10/facedetect_service/System/Groups/{groupId}/Devices/{deviceId}")
+    Observable<Fault> deleteFaceDetectGroupDevice(
+            @Header("Cookie")                  String cookie,
+            @Path("groupId")                   String groupId,
+            @Path("deviceId")                  String deviceId
+    );
+
+    @GET("howell/ver10/facedetect_service/System/Groups/{id}/Threshold")
+    Observable<FaceDetectThreshold> queryFaceDetectGroupThreshold(
+            @Header("Cookie")                  String cookie,
+            @Path("id")                        String id
+    );
+
+    @Headers("Content-Type:application/json;charset=utf-8")
+    @POST("howell/ver10/facedetect_service/System/Groups/{id}/Threshold")
+    Observable<Fault> updateFaceDetectGroupThreshold(
+            @Header("Cookie")                  String cookie,
+            @Path("id")                        String id,
+            @Body                              FaceDetectThreshold faceDetectThreshold
+    );
+
+    @GET("howell/ver10/facedetect_service/System/Events/Records")
+    Observable<FaceDetectEventRecordList> queryFaceDetectEventRecords(
+            @Header("Cookie")                  String cookie,
+            @Query("BeginTime")    @NonNull    String begTime,
+            @Query("EndTime ")     @NonNull    String endTime,
+            @Query("ComponentId")  @Nullable   String componentId,
+            @Query("EventType ")   @Nullable   String eventType,
+            @Query("PageIndex")    @Nullable   Integer pageIndex,
+            @Query("PageSize")     @Nullable   Integer pageSize
+    );
+
+    @GET("howell/ver10/facedetect_service/System/Events/Records/{id}")
+    Observable<FaceDetectEventRecord> queryFaceDetecteventRecord(
+            @Header("Cookie")                  String cookie,
+            @Path("id")                        String id,
+            @Query("BeginTime")    @NonNull    String begTime,
+            @Query("EndTime ")     @NonNull    String endTime
+    );
+
 }

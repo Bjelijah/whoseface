@@ -17,7 +17,6 @@ import com.howellsdk.net.http.utils.NetWorkUtil
 import com.howellsdk.net.websocket.bean.WSRes
 import com.howellsdk.utils.ThreadUtil
 import io.reactivex.Observable
-import io.reactivex.ObservableOnSubscribe
 import org.json.JSONException
 import java.util.concurrent.TimeUnit
 
@@ -77,6 +76,8 @@ class PushPresenter :BasePresenter(),IPushContract.IPresenter{
                         startHeart(aRes.heartbeatinterval.toLong())
                     }
                     WSRes.WS_TYPE.ALARM_EVENT->{
+                        val event = res.resultObject as WSRes.AlarmEvent
+                        sendEventAfk(event.cseq)
 
                     }
                     WSRes.WS_TYPE.ALARM_NOTICE->{
@@ -158,6 +159,10 @@ class PushPresenter :BasePresenter(),IPushContract.IPresenter{
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun sendEventAfk(cseq: Int){
+        sendPushAfk(cseq)
     }
 
     private fun sendPushAfk(cseq: Int) {

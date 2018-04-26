@@ -16,13 +16,14 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.howell.bean.FaceBean
+import com.howell.modules.face.FacePresenter
+import com.howell.modules.face.IFaceContract
 import com.howell.whoseface.R
+import com.howellsdk.utils.Util
 import com.squareup.picasso.Picasso
-import io.reactivex.Observable
-import io.reactivex.ObservableOnSubscribe
-import org.w3c.dom.Text
 
-class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener{
+class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFaceContract.IVew{
+
 
     val PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f
     val PERCENTAGE_TO_HIDE_TITLE_DETAILS    = 0.3f
@@ -31,7 +32,7 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener{
     var mIsTheTitleVisible                  = false
     var mIsTheTitleContainerVisible         = true
     var mBean :FaceBean                    ?= null
-
+    var mPresenter:IFaceContract.IPresenter?= null
 
     @BindView(R.id.face_appbar)lateinit var mAppBar : AppBarLayout
     @BindView(R.id.face_tb)lateinit var mTb:Toolbar
@@ -54,8 +55,14 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_face)
         ButterKnife.bind(this)
+        bindPresenter()
         initView()
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unbindPresenter()
     }
 
     override fun onStart() {
@@ -77,6 +84,36 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener{
         return true
     }
 
+    override fun onQueryFaceResult(bean: FaceBean) {
+        mBean = bean
+        var p = Picasso.Builder(this).build()
+        p.load(bean.imageUrl1).into(mIvFace1)
+        p.load(bean.imageUrl1).into(mIvCircle)
+        p.load(bean.imageUrl2).into(mIvFace2)
+
+        ////
+        mTvMainTitle.text = "${mBean?.similarity}%"
+        mTvSecondTitle.text = mBean?.msgTime
+        mTvSmallTitle.text = if(mBean?.name.equals("")) getString(R.string.face_name_default) else mBean?.name
+        mTvName.text =if(mBean?.userName.equals("")) getString(R.string.face_name_default) else mBean?.userName
+        mTvAge.text = if(mBean?.age == 0) getString(R.string.face_age_default) else  mBean?.age.toString()
+        mTvSex.text = if(mBean?.sex.equals("")) getString(R.string.face_sex_default) else  mBean?.sex
+        mTvGroup.text = if(mBean?.group.equals("")) getString(R.string.face_group_default) else  mBean?.group
+        mTvSimilarity.text = "${mBean?.similarity}%"
+        mTvTime.text = mBean?.msgTime
+
+    }
+
+    override fun bindPresenter() {
+        if (mPresenter==null)mPresenter = FacePresenter()
+        mPresenter?.init(this)
+    }
+
+    override fun unbindPresenter() {
+        mPresenter?.unbindView()
+        mPresenter = null
+    }
+
 
     private fun initView(){
         mAppBar.addOnOffsetChangedListener(this)
@@ -96,31 +133,17 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener{
     }
 
     private fun initFun(intent: Intent?){
-        mBean = intent?.getSerializableExtra("face_bean") as FaceBean?
-        print("mBean= $mBean")
-        //TODO do in thread
-        var url1 = mBean?.imageUrl1
-        var url2 = mBean?.imageUrl2
+//        mBean = intent?.getSerializableExtra("face_bean") as FaceBean?
 
-        Log.i("123","url1=$url1        url2=$url2" )
-        var p = Picasso.Builder(this).build()
-        p.load(url1).into(mIvFace1)
-        p.load(url1).into(mIvCircle)
-        p.load(url2).into(mIvFace2)
+        var id = intent?.getStringExtra("id")
+        var time = intent?.getStringExtra("time")
+        var date = Util.ISODateString2ISODate(time)
+        var db = Util.plusMinute(date,-2)
+        var df = Util.plusMinute(date,2)
+        var timeb = Util.Date2ISODateString(db)
+        var timef = Util.Date2ISODateString(df)
 
-        ////
-
-
-        mTvMainTitle.text = "${mBean?.similarity}%"
-        mTvSecondTitle.text = mBean?.msgTime
-        mTvSmallTitle.text = if(mBean?.name.equals("")) getString(R.string.face_name_default) else mBean?.name
-        mTvName.text =if(mBean?.name.equals("")) getString(R.string.face_name_default) else mBean?.name
-        mTvAge.text = if(mBean?.age == 0) getString(R.string.face_age_default) else  mBean?.age.toString()
-        mTvSex.text = if(mBean?.sex.equals("")) getString(R.string.face_sex_default) else  mBean?.sex
-        mTvGroup.text = if(mBean?.group.equals("")) getString(R.string.face_group_default) else  mBean?.group
-        mTvSimilarity.text = "${mBean?.similarity}%"
-        mTvTime.text = mBean?.msgTime
-
+        mPresenter?.queryFace(id!!,timeb,timef)
     }
 
 
