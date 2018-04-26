@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import butterknife.BindView
 import butterknife.ButterKnife
+import butterknife.OnClick
 import com.howell.whoseface.R
 
 class FaceMain :AppCompatActivity(),AppBarLayout.OnOffsetChangedListener {
@@ -53,9 +54,12 @@ class FaceMain :AppCompatActivity(),AppBarLayout.OnOffsetChangedListener {
             }
 
         }
+    }
 
-
+    @OnClick(R.id.face_main_fb)
+    fun onFbClick(){
 
     }
+
 
 }

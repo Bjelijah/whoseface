@@ -37,6 +37,11 @@
             android:launchMode="singleTask"
             />
 
+        <activity android:name="com.howell.activity.HistoryActiviy"
+            android:theme="@style/MyAppPush"
+            android:launchMode="singleTask"
+            />
+
 
         <service android:name="com.howell.service.AliveService"
             android:enabled="true"

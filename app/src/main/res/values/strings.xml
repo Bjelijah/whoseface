@@ -19,6 +19,12 @@
 
     <string name="face_main_title">这是谁？？？</string>
 
+
+	<string name="face_small_title">未知人员</string>
+	<string name="face_name_default">未知人员</string>
+	<string name="face_sex_default">未知性别</string>
+	<string name="face_age_default">未知年龄</string>
+	<string name="face_group_default">未知组别</string>
 	<string name="face_history">历史记录</string>
 
 
