@@ -3,8 +3,11 @@ package com.howell.activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.widget.ImageView
+import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
+import com.bumptech.glide.Glide
 import com.howell.bean.FaceBean
 import com.howell.service.AliveService
 import com.howell.whoseface.R
@@ -12,11 +15,12 @@ import com.howell.whoseface.R
 class MainActivity :AppCompatActivity(){
 
 
-
+    @BindView(R.id.main_iv)     lateinit var mView: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         ButterKnife.bind(this)
+        Glide.with(this).load("https://unsplash.it/600/300/?random").centerCrop().into(mView)
     }
 
     @OnClick(R.id.main_btn_entry)
