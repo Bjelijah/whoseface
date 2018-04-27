@@ -9,10 +9,12 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.howell.bean.FaceBean
 import com.howell.utils.PhoneConfig
 import com.howell.whoseface.R
+import com.squareup.picasso.Picasso
 import java.util.*
 
 class HistroyRecyclerViewAdapter() :RecyclerView.Adapter<HistroyRecyclerViewAdapter.ViewHoder>() {
@@ -75,7 +77,12 @@ class HistroyRecyclerViewAdapter() :RecyclerView.Adapter<HistroyRecyclerViewAdap
                 if (width>0){
                     var height = 390f/260f * width
                     v.layoutParams = LinearLayout.LayoutParams(width,height.toInt())
-                    v.setImageDrawable(mContext?.getDrawable(id))
+                    if(id!=0) {
+                        v.setImageDrawable(mContext?.getDrawable(id))
+                    }else{
+                       Picasso.Builder(mContext!!).build().load(url).into(v)
+                    }
+
                 }
                 v.viewTreeObserver.removeOnGlobalLayoutListener (this)
             }
@@ -85,29 +92,60 @@ class HistroyRecyclerViewAdapter() :RecyclerView.Adapter<HistroyRecyclerViewAdap
     }
 
     private fun init(h:ViewHoder,bean:FaceBean,pos:Int){
-        h.mHistoryTime.text = bean.msgTime
-
         //todo do in
+        test(h,bean)
+//        doData(h,bean)
+    }
+    private fun doData(h:ViewHoder,bean:FaceBean){
+        h.mPos.text = if(bean.name.equals("")) mContext!!.getString(R.string.face_position_default) else bean.name
+        h.mSimilarity.text = String.format("%d%",bean.similarity)
+        h.mTime.text = bean.msgTime
+        initView(h.mFace1,bean.imageUrl1,0)
+        initView(h.mFace2,bean.imageUrl2,0)
+        h.mName.text = if(bean.userName.equals(""))mContext!!.getString(R.string.face_name_default)else bean.userName
+        h.mAge.text = if(bean.age.equals(""))mContext!!.getString(R.string.face_age_default)else bean.age.toString()
+        h.mSex.text = if(bean.sex.equals(""))mContext!!.getString(R.string.face_sex_default)else bean.sex
+        h.mGroup.text = if(bean.group.equals(""))mContext!!.getString(R.string.face_group_default)else bean.group
+        h.itemView.setOnClickListener {
+            mListener?.onItemClick(bean)
+        }
+        h.mTimell.setOnClickListener{
+            mListener?.onInfoClick(bean)
+        }
+    }
 
-        initView(h.mHistoryFace1,"",R.drawable.face1)
-        initView(h.mHistoryFace2,"",R.drawable.face2)
 
-
-
+    private fun test(h:ViewHoder,bean:FaceBean){
+        initView(h.mFace1,"",R.drawable.face1)
+        initView(h.mFace2,"",R.drawable.face2)
+        h.itemView.setOnClickListener {
+            mListener?.onItemClick(bean)
+        }
+        h.mTimell.setOnClickListener{
+            mListener?.onInfoClick(bean)
+        }
 
     }
 
+
     interface OnItemClick{
-        fun onItemClick(bean:FaceBean,pos:Int)
+        fun onItemClick(bean:FaceBean)
+        fun onInfoClick(bean:FaceBean)
     }
 
 
     inner class ViewHoder(v: View):RecyclerView.ViewHolder(v){
-
-        var mHistoryTime:TextView = v.findViewById(R.id.item_history_time)
-        var mHistoryFace1:ImageView = v.findViewById(R.id.item_history_face1)
-        var mHistoryFace2:ImageView = v.findViewById(R.id.item_history_face2)
-
+        var mPos:TextView = v.findViewById(R.id.item_history_position)
+        var mTime:TextView = v.findViewById(R.id.item_history_time)
+        var mFace1:ImageView = v.findViewById(R.id.item_history_face1)
+        var mFace2:ImageView = v.findViewById(R.id.item_history_face2)
+        var mSimilarity:TextView = v.findViewById(R.id.item_history_similarity)
+        var mName:TextView = v.findViewById(R.id.item_history_name)
+        var mAge:TextView = v.findViewById(R.id.item_history_age)
+        var mSex:TextView = v.findViewById(R.id.item_history_sex)
+        var mGroup:TextView = v.findViewById(R.id.item_history_group)
+        var mInfoBtn:ImageView = v.findViewById(R.id.item_history_info)
+        var mTimell:RelativeLayout = v.findViewById(R.id.item_history_time_ll)
     }
 
 }

@@ -819,9 +819,7 @@ public interface HWHttpApi {
     @GET("howell/ver10/facedetect_service/System/Events/Records/{id}")
     Observable<FaceDetectEventRecord> queryFaceDetecteventRecord(
             @Header("Cookie")                  String cookie,
-            @Path("id")                        String id,
-            @Query("BeginTime")    @NonNull    String begTime,
-            @Query("EndTime ")     @NonNull    String endTime
+            @Path("id")                        String id
     );
 
 }

@@ -1,6 +1,7 @@
 package com.howell.modules.face
 
 import android.content.Context
+import android.util.Log
 import com.howell.action.Config
 import com.howell.bean.FaceBean
 import com.howell.modules.BasePresenter
@@ -24,13 +25,11 @@ class FacePresenter:BasePresenter(),IFaceContract.IPresenter {
         mContext = c
         login()
     }
-    override fun queryFace(id: String, begTime: String, endTime: String) {
+    override fun queryFace(id: String) {
         ApiManager.getInstance().getHWHttpService(Config.URL)
                 .queryFaceDetecteventRecord(
                         ApiManager.HttpHelp.getCookie(ApiManager.HttpHelp.Type.FACE_EVENTS_RECORDS,id),
-                        id,
-                        begTime,
-                        endTime
+                        id
                 )
                 .map { record->
                     var bean = FaceBean(record.componentId)
@@ -98,6 +97,7 @@ class FacePresenter:BasePresenter(),IFaceContract.IPresenter {
                     }
 
                     override fun onNext(t: UserNonce) {
+                        Log.i("123","user nonce ok dommain=${t.domain}  nonce=${t.nonce}")
                         login2Server(ClientCredential(
                                 Config.USER_NAME,
                                 Config.PASSWORD,
@@ -126,7 +126,16 @@ class FacePresenter:BasePresenter(),IFaceContract.IPresenter {
                     }
 
                     override fun onNext(t: Fault) {
+                        Log.i("123","login2 Server= $t")
                         ApiManager.HttpHelp.setCookie(req.userName,req.domain,t.id,req.verifySession)
+                        Log.i("123","${t.faultCode}")
+                        if(t.faultCode.equals("0")){
+                            Log.i("123"," ==   mView=$mView")
+                            mView?.onLoginResult(true)
+                        }else{
+                            Log.i("123"," != ")
+                            mView?.onLoginResult(false)
+                        }
                     }
 
                     override fun onError(e: Throwable) {

@@ -3,6 +3,7 @@ package com.howell.activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.AppBarLayout
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -15,6 +16,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
+import butterknife.OnClick
 import com.howell.bean.FaceBean
 import com.howell.modules.face.FacePresenter
 import com.howell.modules.face.IFaceContract
@@ -25,15 +27,20 @@ import com.squareup.picasso.Picasso
 class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFaceContract.IVew{
 
 
+
     val PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f
     val PERCENTAGE_TO_HIDE_TITLE_DETAILS    = 0.3f
+    val PERCENTAGE_TO_SHOW_IMAGE            = 0.2f
     val ALPHA_ANIMATIONS_DURATION           = 200L
 
     var mIsTheTitleVisible                  = false
     var mIsTheTitleContainerVisible         = true
+    var mIsTheFloatBarVisible               = true
     var mBean :FaceBean                    ?= null
     var mPresenter:IFaceContract.IPresenter?= null
-
+    var mId:String ?=null
+    var mTime:String?=null
+    @BindView(R.id.face_fb)lateinit var mFb: FloatingActionButton
     @BindView(R.id.face_appbar)lateinit var mAppBar : AppBarLayout
     @BindView(R.id.face_tb)lateinit var mTb:Toolbar
     @BindView(R.id.face_title_tv_small)lateinit var mTvSmallTitle:TextView
@@ -41,9 +48,14 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFa
 
     @BindView(R.id.face_title_tv_main)lateinit var mTvMainTitle:TextView
     @BindView(R.id.face_title_tv_sec)lateinit var mTvSecondTitle:TextView
+    @BindView(R.id.face_position)lateinit var mTVPosition:TextView
     @BindView(R.id.face_name)lateinit var mTvName:TextView
     @BindView(R.id.face_age)lateinit var mTvAge:TextView
     @BindView(R.id.face_sex)lateinit var mTvSex:TextView
+    @BindView(R.id.face_phone)lateinit var mTvPhone:TextView
+    @BindView(R.id.face_birthday)lateinit var mTvBirthday:TextView
+    @BindView(R.id.face_city)lateinit var mTvCity:TextView
+    @BindView(R.id.face_description)lateinit var mTvDescription:TextView
     @BindView(R.id.face_group)lateinit var mTvGroup:TextView
     @BindView(R.id.face_similarity)lateinit var mTvSimilarity:TextView
     @BindView(R.id.face_time)lateinit var mTvTime:TextView
@@ -65,13 +77,11 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFa
         unbindPresenter()
     }
 
-    override fun onStart() {
-        super.onStart()
-        initFun(intent)
-    }
+
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        Log.e("123","on new Intent")
         setIntent(intent)
         initFun(intent)
     }
@@ -84,6 +94,13 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFa
         return true
     }
 
+    override fun onLoginResult(isOK: Boolean) {
+        Log.i("123","on LoginResult")
+        if(isOK){
+            initFun(intent)
+        }
+    }
+
     override fun onQueryFaceResult(bean: FaceBean) {
         mBean = bean
         var p = Picasso.Builder(this).build()
@@ -94,18 +111,24 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFa
         ////
         mTvMainTitle.text = "${mBean?.similarity}%"
         mTvSecondTitle.text = mBean?.msgTime
-        mTvSmallTitle.text = if(mBean?.name.equals("")) getString(R.string.face_name_default) else mBean?.name
+        mTvSmallTitle.text = if(mBean?.name.equals("")) getString(R.string.face_position_default) else mBean?.name
+        mTVPosition.text = if(mBean?.name.equals("")) getString(R.string.face_position_default)else mBean?.name
         mTvName.text =if(mBean?.userName.equals("")) getString(R.string.face_name_default) else mBean?.userName
         mTvAge.text = if(mBean?.age == 0) getString(R.string.face_age_default) else  mBean?.age.toString()
         mTvSex.text = if(mBean?.sex.equals("")) getString(R.string.face_sex_default) else  mBean?.sex
+        mTvPhone.text = if(mBean?.phone.equals(""))getString(R.string.face_phone_default)else mBean?.phone
+        mTvBirthday.text = if(mBean?.birthday.equals(""))getString(R.string.face_default_unknown)else mBean?.birthday
+        mTvCity.text = if(mBean?.city.equals(""))getString(R.string.face_default_unknown)else mBean?.city
         mTvGroup.text = if(mBean?.group.equals("")) getString(R.string.face_group_default) else  mBean?.group
         mTvSimilarity.text = "${mBean?.similarity}%"
         mTvTime.text = mBean?.msgTime
+        mTvDescription.text = if(mBean?.description.equals(""))getString(R.string.face_description_default)else mBean?.description
 
     }
 
     override fun bindPresenter() {
         if (mPresenter==null)mPresenter = FacePresenter()
+        mPresenter?.bindView(this)
         mPresenter?.init(this)
     }
 
@@ -114,9 +137,18 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFa
         mPresenter = null
     }
 
+    @OnClick(R.id.face_fb)
+    fun onFbClick(){
+        var intent = Intent(this,HistoryActiviy::class.java)
+        //todo set info
+        intent.putExtra("id",mId).putExtra("time",mTime)
+        startActivity(intent)
+    }
 
     private fun initView(){
         mAppBar.addOnOffsetChangedListener(this)
+        //FIXME  no menu
+        /*
         mTb.inflateMenu(R.menu.menu_face)
         var menuItem = mTb.menu.findItem(R.id.menu_face_history)
         menuItem.setOnMenuItemClickListener {
@@ -124,12 +156,14 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFa
             //TODO
             var intent = Intent(this,HistoryActiviy::class.java)
             //todo set info
-
+            intent.putExtra("id",mId).putExtra("time",mTime)
             startActivity(intent)
 
             true
         }
+            */
         startAlphaAnimation(mTvSmallTitle,0,View.INVISIBLE)
+
     }
 
     private fun initFun(intent: Intent?){
@@ -137,13 +171,20 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFa
 
         var id = intent?.getStringExtra("id")
         var time = intent?.getStringExtra("time")
+        Log.i("123","initFun  id=$id   time=$time")
+        mId = id
+        mTime = time
+
         var date = Util.ISODateString2ISODate(time)
         var db = Util.plusMinute(date,-2)
         var df = Util.plusMinute(date,2)
+
+
+
         var timeb = Util.Date2ISODateString(db)
         var timef = Util.Date2ISODateString(df)
-
-        mPresenter?.queryFace(id!!,timeb,timef)
+        Log.i("123","  time=$time    tb=$timeb   tf=$timef")
+        mPresenter?.queryFace(id!!)
     }
 
 
@@ -189,10 +230,26 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFa
         }
     }
 
+    private fun handleFloatBarVisibility(percentage:Float){
+        if (percentage>PERCENTAGE_TO_SHOW_IMAGE){
+            if (mIsTheFloatBarVisible){
+                mIsTheFloatBarVisible = false
+                ViewCompat.animate(mFb).scaleY(0f).scaleX(0f).start()
+            }
+        }else{
+            if (!mIsTheFloatBarVisible){
+                mIsTheFloatBarVisible = true
+                ViewCompat.animate(mFb).scaleY(1f).scaleX(1f).start()
+            }
+        }
+    }
+
+
     override fun onOffsetChanged(appBarLayout: AppBarLayout?, offset: Int) {
         var maxScroll = appBarLayout?.totalScrollRange
         var percentage = Math.abs(offset).toFloat() / maxScroll!!.toFloat()
         handleAlphaOnTitle(percentage)
         handleToolbarTitleVisibility(percentage)
+        handleFloatBarVisibility(percentage)
     }
 }

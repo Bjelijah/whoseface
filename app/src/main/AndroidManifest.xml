@@ -42,10 +42,13 @@
             android:launchMode="singleTask"
             />
 
+        <activity android:name="com.howell.activity.BuyInfos"
+            android:theme="@style/MyAppPush"
+            />
 
         <service android:name="com.howell.service.AliveService"
             android:enabled="true"
-            android:exported="false"
+            android:exported="true"
             ></service>
 
 

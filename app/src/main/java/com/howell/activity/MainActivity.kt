@@ -3,6 +3,7 @@ package com.howell.activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.widget.ImageView
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -11,6 +12,8 @@ import com.bumptech.glide.Glide
 import com.howell.bean.FaceBean
 import com.howell.service.AliveService
 import com.howell.whoseface.R
+import com.howellsdk.utils.Util
+import java.util.*
 
 class MainActivity :AppCompatActivity(){
 
@@ -24,9 +27,9 @@ class MainActivity :AppCompatActivity(){
     }
 
     @OnClick(R.id.main_btn_entry)
-    fun entryClick(){
+    fun runClick(){
         startService(Intent(this,AliveService::class.java))
-        finish()
+        onBackPressed()
     }
 
     @OnClick(R.id.main_btn_push)
@@ -47,8 +50,12 @@ class MainActivity :AppCompatActivity(){
         b.imageUrl1 = "http://192.168.21.240:8800/DSC02453.jpg"
         b.imageUrl2 = "http://192.168.21.240:8800/DSC02455.jpg"
 //        intent.putExtra("face_bean",b)
-        intent.putExtra("id","asdf")
-        intent.putExtra("time","")
+        intent.putExtra("id","1")
+
+        var d = Date()
+        var time = Util.Date2ISODateString(d)
+        Log.i("123","$d     $time"   )
+        intent.putExtra("time",time)
         startActivity(intent)
 //        startActivity(Intent(this,HistoryActiviy::class.java))
     }

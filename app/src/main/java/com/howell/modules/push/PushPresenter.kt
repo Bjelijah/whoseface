@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Base64
 import android.util.Log
+import com.howell.activity.FaceActivity
 import com.howell.activity.FaceMain
 import com.howell.modules.BasePresenter
 import com.howell.modules.ImpBaseView
@@ -63,6 +64,7 @@ class PushPresenter :BasePresenter(),IPushContract.IPresenter{
             override fun onGetMessage(res: WSRes?) {
                 when(res?.type){
                     WSRes.WS_TYPE.ALARM_LINK->{
+                        Log.i("547","alarm link")
                         val alarmLinkRes = res.resultObject as WSRes.AlarmLinkRes
                         if (alarmLinkRes.result==0){
                             sendHeart()
@@ -71,29 +73,29 @@ class PushPresenter :BasePresenter(),IPushContract.IPresenter{
                         }
                     }
                     WSRes.WS_TYPE.ALARM_ALIVE->{
+                        Log.i("547","alarm alive")
                         mHeart = 0
                         val aRes = res.resultObject as WSRes.AlarmAliveRes
                         startHeart(aRes.heartbeatinterval.toLong())
                     }
                     WSRes.WS_TYPE.ALARM_EVENT->{
                         val event = res.resultObject as WSRes.AlarmEvent
+                        Log.i("123","alarm event = $event")
                         sendEventAfk(event.cseq)
+                        handleEvent(event)
 
                     }
                     WSRes.WS_TYPE.ALARM_NOTICE->{
-
+                        Log.i("547","alarm notice")
                     }
                     WSRes.WS_TYPE.PUSH_MESSAGE->{
+                        Log.i("547","alarm push message")
                         val ps = res.resultObject as WSRes.PushMessage
                         sendPushAfk(ps.cseq)
                         showNotification(String(Base64.decode(ps.content,0)))
                     }
-
                     else->{}
-
                 }
-
-
             }
 
             override fun onError(error: Int) {
@@ -178,9 +180,18 @@ class PushPresenter :BasePresenter(),IPushContract.IPresenter{
     }
 
     private fun startHeart(delaySec:Long){
+        Log.i("547", "isAliveHeart=$mIsAliveHeart       delaySec=$delaySec")
         if (!mIsAliveHeart){
             mIsAliveHeart = true
+
             ThreadUtil.scheduledSingleThreadStart({
+                Log.i("123","send heart in thread")
+                sendHeart()
+                mHeart ++
+                if (mHeart>=3){
+                    unLink()
+                    mHeart = 0
+                }
 
             },delaySec,delaySec,TimeUnit.SECONDS)
 
@@ -199,21 +210,58 @@ class PushPresenter :BasePresenter(),IPushContract.IPresenter{
         return mNotifyId
     }
 
+    private fun handleEvent(event: WSRes.AlarmEvent){
+        if (!event.eventType.equals("FaceMatch"))return
+        var id = event.id
+        var time = event.time
+        showNotification(id,time)
+
+    }
+
+
     private fun showNotification(content:String){
         val nb = Notification.Builder(mContext)
-        nb.setTicker("报警")
+        nb.setTicker("报警事件")
 
         //setContentTitle
-
+        nb.setContentTitle("入侵报警")
+        nb.setContentText(content)
 
         nb.setSmallIcon(R.mipmap.ic_launcher)
         nb.setWhen(System.currentTimeMillis())
         nb.setAutoCancel(true)
         nb.setDefaults(Notification.DEFAULT_SOUND)
-        val intent = Intent(mContext,FaceMain::class.java)
+        val intent = Intent(mContext,FaceActivity::class.java)
+
+
         //set msg
         val pendingIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         nb.setContentIntent(pendingIntent)
+
+        mNotifyMgr?.notify(getNotificationId(), nb.build())
+    }
+
+
+    private fun showNotification(id:String,time:String){
+        val nb = Notification.Builder(mContext)
+        nb.setTicker("人脸识别")
+
+        //setContentTitle
+        nb.setContentTitle("人脸比中事件")
+        nb.setContentText(time)
+
+        nb.setSmallIcon(R.mipmap.ic_launcher)
+        nb.setWhen(System.currentTimeMillis())
+        nb.setAutoCancel(true)
+        nb.setDefaults(Notification.DEFAULT_SOUND)
+        val intent = Intent(mContext,FaceActivity::class.java)
+        intent.putExtra("id",id)
+        intent.putExtra("time",time)
+
+        //set msg
+        val pendingIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        nb.setContentIntent(pendingIntent)
+
         mNotifyMgr?.notify(getNotificationId(), nb.build())
     }
 

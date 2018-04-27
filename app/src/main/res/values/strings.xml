@@ -19,6 +19,9 @@
 
     <string name="face_main_title">这是谁？？？</string>
 
+	<string name="face_position_default">位置未知</string>
+	<string name="face_phone_default">未知号码</string>
+	<string name="face_default_unknown">未知</string>
 
 	<string name="face_small_title">未知人员</string>
 	<string name="face_name_default">未知人员</string>
@@ -26,7 +29,9 @@
 	<string name="face_age_default">未知年龄</string>
 	<string name="face_group_default">未知组别</string>
 	<string name="face_history">历史记录</string>
+	<string name="face_description_default">Michael在游戏刚开始的北扬克顿抢劫任务中第一次出现，他是游戏的主角之一，也可以说是最重要的人物，游戏的故事情节大多由Michael展开，Michael在之前是一名职业抢匪但在北扬克顿的抢劫任务中Michael事先与FIB做了一笔交易，从此金盆洗手，同时参与了FIB的证人保护计划（事实上是帮助FIB做一些他们不能及的事），与FIB的探员Dave Norton关系密切（实质是互相利用的关系），Michael在我看来是个悲剧的人物，在别人看来，他的生活充斥着用之不尽的财富，就连Franklin当初刚来到老麦家的时候都说：Jesus，man!You have a good time here.（天哪，你过得真的很好）但谁也不知道老麦心中永远的痛，由于家庭之间的矛盾麦克只能自己一个人在家中喝着闷酒，其实想当一个好父亲，他热爱他的家庭，在游戏中大家也可以发现Michael不止一次的营救自己的家人。</string>
 
+	<string name="info_title">详细记录</string>
 
     <string name="lorem">
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit.

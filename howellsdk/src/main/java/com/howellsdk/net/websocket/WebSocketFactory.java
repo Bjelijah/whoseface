@@ -135,6 +135,7 @@ public class WebSocketFactory {
                 sendError(ERROR_SEND);
                 return;
             }
+
             mConnect.sendTextMessage(JsonUtil.createAlarmAliveJsonObject(cseq,systemUpTime,longitude,latitude).toString());
         }
 
