@@ -2,7 +2,6 @@ package com.howell.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +10,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import com.howell.action.Config
 import com.howell.bean.FaceBean
 import com.howell.utils.PhoneConfig
 import com.howell.whoseface.R
@@ -20,7 +20,7 @@ import java.util.*
 class HistroyRecyclerViewAdapter() :RecyclerView.Adapter<HistroyRecyclerViewAdapter.ViewHoder>() {
 
     var mList:ArrayList<FaceBean>?=null
-    var mListener:OnItemClick?=null
+    var mListener: OnItemClick?=null
     var mContext:Context?=null
 
     var mImageWidth = 0
@@ -76,7 +76,7 @@ class HistroyRecyclerViewAdapter() :RecyclerView.Adapter<HistroyRecyclerViewAdap
                 var width = v.width
                 if (width>0){
                     var height = 390f/260f * width
-                    v.layoutParams = LinearLayout.LayoutParams(width,height.toInt())
+                    v.layoutParams = LinearLayout.LayoutParams(width,height.toInt()) as ViewGroup.LayoutParams?
                     if(id!=0) {
                         v.setImageDrawable(mContext?.getDrawable(id))
                     }else{
@@ -93,12 +93,15 @@ class HistroyRecyclerViewAdapter() :RecyclerView.Adapter<HistroyRecyclerViewAdap
 
     private fun init(h:ViewHoder,bean:FaceBean,pos:Int){
         //todo do in
-        test(h,bean)
-//        doData(h,bean)
+        if (Config.Debug) {
+            test(h,bean)
+        }else {
+            doData(h, bean)
+        }
     }
     private fun doData(h:ViewHoder,bean:FaceBean){
         h.mPos.text = if(bean.name.equals("")) mContext!!.getString(R.string.face_position_default) else bean.name
-        h.mSimilarity.text = String.format("%d%",bean.similarity)
+        h.mSimilarity.text =  "${bean.similarity}%"
         h.mTime.text = bean.msgTime
         initView(h.mFace1,bean.imageUrl1,0)
         initView(h.mFace2,bean.imageUrl2,0)

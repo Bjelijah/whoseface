@@ -12,6 +12,6 @@ interface IFaceContract {
     }
     interface IPresenter : ImpBasePresenter{
         fun init(c: Context)
-        fun queryFace(id:String)
+        fun queryFace(id:String,begTime:String?,endTime:String?)
     }
 }

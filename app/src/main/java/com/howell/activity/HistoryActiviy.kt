@@ -7,6 +7,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.util.Log
+import android.view.View
+import android.widget.ProgressBar
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.howell.action.Config
@@ -25,10 +27,13 @@ class HistoryActiviy:AppCompatActivity() ,HistroyRecyclerViewAdapter.OnItemClick
 
     @BindView(R.id.history_toolbar)lateinit var mTb:Toolbar
     @BindView(R.id.history_rv)lateinit var mRv:RecyclerView
+    @BindView(R.id.history_pb)lateinit var mPb:ProgressBar
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history)
         ButterKnife.bind(this)
+        bindPresenter()
         initView()
 //        initFun()
         if(Config.Debug){
@@ -37,6 +42,12 @@ class HistoryActiviy:AppCompatActivity() ,HistroyRecyclerViewAdapter.OnItemClick
             initFun()
         }
     }
+
+    override fun onDestroy() {
+        unbindPresenter()
+        super.onDestroy()
+    }
+
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
@@ -53,6 +64,7 @@ class HistoryActiviy:AppCompatActivity() ,HistroyRecyclerViewAdapter.OnItemClick
 
 
     override fun onQueryFaceResult(beans: ArrayList<FaceBean>) {
+        mPb.visibility = View.GONE
         (mRv.adapter as HistroyRecyclerViewAdapter).setData(beans)
     }
 
@@ -79,15 +91,19 @@ class HistoryActiviy:AppCompatActivity() ,HistroyRecyclerViewAdapter.OnItemClick
     }
 
     private fun initFun(){
+        mPb.visibility = View.VISIBLE
         var id = intent?.getStringExtra("id")
-        var time = intent?.getStringExtra("time")
-        var date = Util.ISODateString2ISODate(time)
-        var db = Util.plusMonth(date,-1)
-        var df = Util.plusMinute(date,2)
+
+
+        var d = Date()
+//        time = Util.Date2ISODateString(d)
+//        var date = Util.ISODateString2ISODate(time)
+        var db = Util.plusMonth(d,-1)
+        var df = Util.plusMinute(d,2)
         var timeb = Util.Date2ISODateString(db)
         var timef = Util.Date2ISODateString(df)
-        Log.i("123","time=$time    timeb=$timeb   timef=$timef")
-        Log.e("123","query face list")
+        Log.i("123","timeb=$timeb   timef=$timef")
+        Log.e("123","query face list    id=$id")
         mPresenter?.queryFaceList(id!!,timeb,timef)
     }
 
@@ -115,8 +131,9 @@ class HistoryActiviy:AppCompatActivity() ,HistroyRecyclerViewAdapter.OnItemClick
 
     override fun onItemClick(bean: FaceBean) {
         var intent = Intent(this,FaceActivity::class.java)
-        intent.putExtra("id",bean.componentId)
-        intent.putExtra("time",bean.msgTime)
+//        intent.putExtra("id",bean.componentId)
+//        intent.putExtra("time",bean.msgTime)
+        intent.putExtra("bean",bean)
         startActivity(intent)
     }
 

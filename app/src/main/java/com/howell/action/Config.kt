@@ -2,7 +2,7 @@ package com.howell.action
 
 object Config {
 
-    var Debug = true
+    var Debug = false
 //    var IP = "192.168.21.240"
     var IP = "116.228.67.70"
     var URL = "http://116.228.67.70:8800"

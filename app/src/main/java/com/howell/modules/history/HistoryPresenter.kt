@@ -1,11 +1,13 @@
 package com.howell.modules.history
 
 import android.content.Context
+import android.util.Log
 import com.howell.action.Config
 import com.howell.bean.FaceBean
 import com.howell.modules.BasePresenter
 import com.howell.modules.ImpBaseView
 import com.howellsdk.api.ApiManager
+import com.howellsdk.utils.Util
 import io.reactivex.Observable
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -22,30 +24,32 @@ class HistoryPresenter:BasePresenter(),IHistoryContract.IPresenter {
     }
 
     override fun queryFaceList(id: String, begTime: String, endTime: String) {
+        Log.i("123","query face list")
         ApiManager.getInstance().getHWHttpService(Config.URL)
                 .queryFaceDetectEventRecords(
                         ApiManager.HttpHelp.getCookie(ApiManager.HttpHelp.Type.FACE_EVENTS_RECORDS),
                         begTime,endTime, id,
                         null,null,null
                 ).map { recordList->
+                    Log.i("123","recordList=$recordList")
                     recordList.eventRecords
                 }.flatMap { list-> Observable.fromIterable(list) }
                 .map { record->
                     var bean = FaceBean(record.componentId)
-                    bean.msgTime     = record.alarmTime
-                    bean.similarity  = record.confidence
+                    bean.msgTime     = Util.ISODateString2Date(record.alarmTime)
+                    bean.similarity  = record.confidence?:0
                     bean.name        = record.name
-                    bean.description = record.description
+                    bean.description = record.description?:""
 
                     bean.imageUrl1   = record.faceAppendData.pictureId
                     bean.imageUrl2   = record.faceSnapData.facePictureId
 
                     bean.userName    = record.faceAppendData.name
-                    bean.sex         = record.faceAppendData.sex
-                    bean.phone       = record.faceAppendData.phone
-                    bean.birthday    = record.faceAppendData.birthDate
-                    bean.city        = record.faceAppendData.city
-                    bean.age         = record.faceSnapData.feature.age
+                    bean.sex         = record.faceAppendData.sex?:""
+                    bean.phone       = record.faceAppendData.phone?:""
+                    bean.birthday    = record.faceAppendData.birthDate?:""
+                    bean.city        = record.faceAppendData.city?:""
+                    bean.age         = record.faceSnapData.feature.age?:0
                     bean.group       = record.faceSet.name
                     return@map bean
                 }.toList()

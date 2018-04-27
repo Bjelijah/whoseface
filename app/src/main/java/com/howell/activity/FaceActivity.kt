@@ -17,6 +17,7 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
+import com.howell.action.Config
 import com.howell.bean.FaceBean
 import com.howell.modules.face.FacePresenter
 import com.howell.modules.face.IFaceContract
@@ -102,8 +103,12 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFa
     }
 
     override fun onQueryFaceResult(bean: FaceBean) {
+        Log.e("123","on query face result  bean=$bean")
         mBean = bean
         var p = Picasso.Builder(this).build()
+        Log.i("123","url = ${bean.imageUrl1}")
+//        bean.imageUrl1 = "http://116.228.67.70:8800/DSC02453.jpg"
+//        bean.imageUrl2 = "http://116.228.67.70:8800/DSC02455.jpg"
         p.load(bean.imageUrl1).into(mIvFace1)
         p.load(bean.imageUrl1).into(mIvCircle)
         p.load(bean.imageUrl2).into(mIvFace2)
@@ -124,6 +129,8 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFa
         mTvTime.text = mBean?.msgTime
         mTvDescription.text = if(mBean?.description.equals(""))getString(R.string.face_description_default)else mBean?.description
 
+        mId = mBean?.componentId
+        mTime = mBean?.msgTime
     }
 
     override fun bindPresenter() {
@@ -167,24 +174,37 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFa
     }
 
     private fun initFun(intent: Intent?){
+        if (Config.Debug)return
 //        mBean = intent?.getSerializableExtra("face_bean") as FaceBean?
-
-        var id = intent?.getStringExtra("id")
-        var time = intent?.getStringExtra("time")
+        var bean:FaceBean ?= null
+        var id:String ?= null
+        var time:String ?= null
+        try {
+            bean = intent?.getSerializableExtra("bean") as FaceBean
+        }catch (e:Exception){e.printStackTrace()}
+        try {
+            id = intent?.getStringExtra("id")
+        }catch (e:Exception){e.printStackTrace()}
+        try {
+            time = intent?.getStringExtra("time")
+        }catch (e:Exception){e.printStackTrace()}
         Log.i("123","initFun  id=$id   time=$time")
         mId = id
         mTime = time
-
-        var date = Util.ISODateString2ISODate(time)
-        var db = Util.plusMinute(date,-2)
-        var df = Util.plusMinute(date,2)
-
-
-
-        var timeb = Util.Date2ISODateString(db)
-        var timef = Util.Date2ISODateString(df)
-        Log.i("123","  time=$time    tb=$timeb   tf=$timef")
-        mPresenter?.queryFace(id!!)
+        if(bean!=null){
+            onQueryFaceResult(bean)
+        }else if(time==null && id!=null){
+            mPresenter?.queryFace(id!!,null,null)
+        }else if(time!=null && id!=null){
+            var date = Util.DateString2Date(time)
+//            var db = Util.plusMinute(date, -10)
+            var db = Util.plusMinute(date,-2)
+            var df = Util.plusMinute(date, 2)
+            var timeb = Util.Date2ISODateString(db)
+            var timef = Util.Date2ISODateString(df)
+            Log.i("123", "  time=$time    tb=$timeb   tf=$timef")
+            mPresenter?.queryFace(id!!,timeb,timef)
+        }
     }
 
 

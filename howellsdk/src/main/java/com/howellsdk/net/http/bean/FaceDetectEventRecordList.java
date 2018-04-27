@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class FaceDetectEventRecordList {
     @SerializedName("Page") Page page;
-    @SerializedName("EventRecord") ArrayList<FaceDetectEventRecord> eventRecords;
+    @SerializedName("FaceDetectEventRecord") ArrayList<FaceDetectEventRecord> eventRecords;
 
     @Override
     public String toString() {

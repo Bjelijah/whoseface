@@ -3,7 +3,6 @@ package com.howell.activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.widget.ImageView
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -12,8 +11,6 @@ import com.bumptech.glide.Glide
 import com.howell.bean.FaceBean
 import com.howell.service.AliveService
 import com.howell.whoseface.R
-import com.howellsdk.utils.Util
-import java.util.*
 
 class MainActivity :AppCompatActivity(){
 
@@ -52,10 +49,10 @@ class MainActivity :AppCompatActivity(){
 //        intent.putExtra("face_bean",b)
         intent.putExtra("id","1")
 
-        var d = Date()
-        var time = Util.Date2ISODateString(d)
-        Log.i("123","$d     $time"   )
-        intent.putExtra("time",time)
+//        var d = Date()
+//        var time = Util.Date2ISODateString(d)
+//        Log.i("123","$d     $time"   )
+//        intent.putExtra("time",time)
         startActivity(intent)
 //        startActivity(Intent(this,HistoryActiviy::class.java))
     }
