@@ -8,7 +8,6 @@ import android.content.Intent
 import android.util.Base64
 import android.util.Log
 import com.howell.activity.FaceActivity
-import com.howell.activity.FaceMain
 import com.howell.modules.BasePresenter
 import com.howell.modules.ImpBaseView
 import com.howell.whoseface.R
@@ -212,9 +211,13 @@ class PushPresenter :BasePresenter(),IPushContract.IPresenter{
 
     private fun handleEvent(event: WSRes.AlarmEvent){
         if (!event.eventType.equals("FaceMatch"))return
-        var id = event.id
-        var time = event.time
-        showNotification(id,time)
+        var id = event.eventID
+        Log.i("123","~~~~~~~~~~~~~~~~~~~id = $id")
+        var times = event.time.split(".")
+        var time = times[0]+"Z"
+        var description = event.description
+
+        showNotification(id,time,description)
 
     }
 
@@ -242,21 +245,20 @@ class PushPresenter :BasePresenter(),IPushContract.IPresenter{
     }
 
 
-    private fun showNotification(id:String,time:String){
+    public fun showNotification(id:String,time:String,description:String){
         val nb = Notification.Builder(mContext)
         nb.setTicker("人脸识别")
 
         //setContentTitle
         nb.setContentTitle("人脸比中事件")
-        nb.setContentText(time)
-
+        nb.setContentText(description)
         nb.setSmallIcon(R.mipmap.ic_launcher)
         nb.setWhen(System.currentTimeMillis())
         nb.setAutoCancel(true)
         nb.setDefaults(Notification.DEFAULT_SOUND)
         val intent = Intent(mContext,FaceActivity::class.java)
         intent.putExtra("id",id)
-        intent.putExtra("time",time)
+//        intent.putExtra("time",time)
 
         //set msg
         val pendingIntent = PendingIntent.getActivity(mContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)

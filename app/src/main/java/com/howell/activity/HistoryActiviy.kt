@@ -134,11 +134,12 @@ class HistoryActiviy:AppCompatActivity() ,HistroyRecyclerViewAdapter.OnItemClick
 //        intent.putExtra("id",bean.componentId)
 //        intent.putExtra("time",bean.msgTime)
         intent.putExtra("bean",bean)
+        Log.i("123"," on history  item click")
         startActivity(intent)
     }
 
     override fun onInfoClick(bean: FaceBean) {
-        var intent = Intent(this,BuyInfos::class.java)
+        var intent = Intent(this,DetailedActivity::class.java)
         startActivity(intent)
     }
 }

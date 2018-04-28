@@ -24,6 +24,7 @@
     <color name="dividerColor">#bdbdbd</color>
 
     <color name="main_bk">#183169</color>
+    <color name="main_bk_alpha">#dd183169</color>
     <color name="alpha_white">#aaeeeeee</color>
     <color name="register_bk">#497d46</color>
 

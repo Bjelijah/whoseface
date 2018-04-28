@@ -47,7 +47,7 @@ class MainActivity :AppCompatActivity(){
         b.imageUrl1 = "http://192.168.21.240:8800/DSC02453.jpg"
         b.imageUrl2 = "http://192.168.21.240:8800/DSC02455.jpg"
 //        intent.putExtra("face_bean",b)
-        intent.putExtra("id","1")
+        intent.putExtra("id","4fa3b3fd2f2840aab6b8835e02daf140")
 
 //        var d = Date()
 //        var time = Util.Date2ISODateString(d)
@@ -55,5 +55,7 @@ class MainActivity :AppCompatActivity(){
 //        intent.putExtra("time",time)
         startActivity(intent)
 //        startActivity(Intent(this,HistoryActiviy::class.java))
+
+//        startActivity(Intent(this,DetailedActivity::class.java))
     }
 }

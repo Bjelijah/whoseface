@@ -41,15 +41,15 @@ class HistoryPresenter:BasePresenter(),IHistoryContract.IPresenter {
                     bean.name        = record.name
                     bean.description = record.description?:""
 
-                    bean.imageUrl1   = record.faceAppendData.pictureId
-                    bean.imageUrl2   = record.faceSnapData.facePictureId
+                    bean.imageUrl1   = "http://${Config.IP}:8800/howell/ver10/Medium/Pictures/${record.faceAppendData.pictureId}/Data"
+                    bean.imageUrl2   = "http://${Config.IP}:8800/howell/ver10/Medium/Pictures/${record.faceSnapData.facePictureId}/Data"
 
                     bean.userName    = record.faceAppendData.name
                     bean.sex         = record.faceAppendData.sex?:""
                     bean.phone       = record.faceAppendData.phone?:""
                     bean.birthday    = record.faceAppendData.birthDate?:""
                     bean.city        = record.faceAppendData.city?:""
-                    bean.age         = record.faceSnapData.feature.age?:0
+                    bean.age         = if(record.faceSnapData.feature.age in 1..100)record.faceSnapData.feature.age else 0
                     bean.group       = record.faceSet.name
                     return@map bean
                 }.toList()

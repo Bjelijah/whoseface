@@ -14,8 +14,12 @@ import com.howell.action.Config
 import com.howell.bean.FaceBean
 import com.howell.utils.PhoneConfig
 import com.howell.whoseface.R
+import com.howellsdk.utils.ThreadUtil
 import com.squareup.picasso.Picasso
 import java.util.*
+
+
+
 
 class HistroyRecyclerViewAdapter() :RecyclerView.Adapter<HistroyRecyclerViewAdapter.ViewHoder>() {
 
@@ -26,10 +30,13 @@ class HistroyRecyclerViewAdapter() :RecyclerView.Adapter<HistroyRecyclerViewAdap
     var mImageWidth = 0
     var mImageHeight = 0
 
+    var mPicasso:Picasso?=null
+
     constructor(c: Context, l:ArrayList<FaceBean>) : this() {
         mList = l
         mContext = c
         initImageWidthHeight(c)
+        mPicasso = Picasso.Builder(c).build()
     }
 
     constructor(c:Context,l:ArrayList<FaceBean>,o:OnItemClick):this (){
@@ -37,12 +44,14 @@ class HistroyRecyclerViewAdapter() :RecyclerView.Adapter<HistroyRecyclerViewAdap
         mListener = o
         mContext = c
         initImageWidthHeight(c)
+        mPicasso = Picasso.Builder(c).build()
     }
 
     constructor(c:Context,o:OnItemClick):this(){
         mListener = o
         mContext = c
         initImageWidthHeight(c)
+        mPicasso = Picasso.Builder(c).build()
     }
 
     private fun initImageWidthHeight(c:Context){
@@ -71,23 +80,26 @@ class HistroyRecyclerViewAdapter() :RecyclerView.Adapter<HistroyRecyclerViewAdap
     }
 
     private fun initView(v:ImageView,url:String,id:Int){
-        v.viewTreeObserver.addOnGlobalLayoutListener (object :ViewTreeObserver.OnGlobalLayoutListener{
-            override fun onGlobalLayout() {
-                var width = v.width
-                if (width>0){
-                    var height = 390f/260f * width
-                    v.layoutParams = LinearLayout.LayoutParams(width,height.toInt()) as ViewGroup.LayoutParams?
-                    if(id!=0) {
-                        v.setImageDrawable(mContext?.getDrawable(id))
-                    }else{
-                       Picasso.Builder(mContext!!).build().load(url).into(v)
+        if(v.width == 0){
+            v.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    var width = v.width
+                    if (width > 0) {
+                        var height = 390f / 260f * width
+                        v.layoutParams = LinearLayout.LayoutParams(width, height.toInt()) as ViewGroup.LayoutParams?
+                        if (id != 0) {
+                            v.setImageDrawable(mContext?.getDrawable(id))
+                        } else {
+                            mPicasso?.load(url)?.into(v)
+                        }
+
                     }
-
+                    v.viewTreeObserver.removeOnGlobalLayoutListener(this)
                 }
-                v.viewTreeObserver.removeOnGlobalLayoutListener (this)
-            }
-        })
-
+            })
+        }else{
+            mPicasso?.load(url)?.into(v)
+        }
 
     }
 
@@ -106,9 +118,10 @@ class HistroyRecyclerViewAdapter() :RecyclerView.Adapter<HistroyRecyclerViewAdap
         initView(h.mFace1,bean.imageUrl1,0)
         initView(h.mFace2,bean.imageUrl2,0)
         h.mName.text = if(bean.userName.equals(""))mContext!!.getString(R.string.face_name_default)else bean.userName
-        h.mAge.text = if(bean.age.equals(""))mContext!!.getString(R.string.face_age_default)else bean.age.toString()
+        h.mAge.text = if(bean.age==0)mContext!!.getString(R.string.face_age_default)else bean.age.toString()
         h.mSex.text = if(bean.sex.equals(""))mContext!!.getString(R.string.face_sex_default)else bean.sex
-        h.mGroup.text = if(bean.group.equals(""))mContext!!.getString(R.string.face_group_default)else bean.group
+//        h.mGroup.text = if(bean.group.equals(""))mContext!!.getString(R.string.face_group_default)else bean.group
+        h.mDescription.text = bean.description
         h.itemView.setOnClickListener {
             mListener?.onItemClick(bean)
         }
@@ -146,9 +159,10 @@ class HistroyRecyclerViewAdapter() :RecyclerView.Adapter<HistroyRecyclerViewAdap
         var mName:TextView = v.findViewById(R.id.item_history_name)
         var mAge:TextView = v.findViewById(R.id.item_history_age)
         var mSex:TextView = v.findViewById(R.id.item_history_sex)
-        var mGroup:TextView = v.findViewById(R.id.item_history_group)
+//        var mGroup:TextView = v.findViewById(R.id.item_history_group)
         var mInfoBtn:ImageView = v.findViewById(R.id.item_history_info)
         var mTimell:RelativeLayout = v.findViewById(R.id.item_history_time_ll)
+        var mDescription:TextView = v.findViewById(R.id.item_history_description)
     }
 
 }

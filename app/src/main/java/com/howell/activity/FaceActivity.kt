@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.View
 import android.view.animation.AlphaAnimation
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -24,6 +25,7 @@ import com.howell.modules.face.IFaceContract
 import com.howell.whoseface.R
 import com.howellsdk.utils.Util
 import com.squareup.picasso.Picasso
+import java.util.*
 
 class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFaceContract.IVew{
 
@@ -46,7 +48,7 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFa
     @BindView(R.id.face_tb)lateinit var mTb:Toolbar
     @BindView(R.id.face_title_tv_small)lateinit var mTvSmallTitle:TextView
     @BindView(R.id.face_title_ll)lateinit var mTitleContainer: LinearLayout
-
+    @BindView(R.id.face_title_fl)lateinit var mTitleBk:FrameLayout
     @BindView(R.id.face_title_tv_main)lateinit var mTvMainTitle:TextView
     @BindView(R.id.face_title_tv_sec)lateinit var mTvSecondTitle:TextView
     @BindView(R.id.face_position)lateinit var mTVPosition:TextView
@@ -146,6 +148,7 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFa
 
     @OnClick(R.id.face_fb)
     fun onFbClick(){
+        Log.i("123","on face fb click")
         var intent = Intent(this,HistoryActiviy::class.java)
         //todo set info
         intent.putExtra("id",mId).putExtra("time",mTime)
@@ -196,7 +199,14 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFa
         }else if(time==null && id!=null){
             mPresenter?.queryFace(id!!,null,null)
         }else if(time!=null && id!=null){
-            var date = Util.DateString2Date(time)
+            var date:Date ?= null
+            Log.i("123","time = $time")
+            date = try{
+                Util.ISODateString2ISODate(time)
+            }catch (e:Exception){
+                Util.DateString2Date(time)
+            }
+            Log.i("123","date=  $date")
 //            var db = Util.plusMinute(date, -10)
             var db = Util.plusMinute(date,-2)
             var df = Util.plusMinute(date, 2)
@@ -264,6 +274,9 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFa
         }
     }
 
+    private fun handleTitleBackgroud(percentage:Float){
+
+    }
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout?, offset: Int) {
         var maxScroll = appBarLayout?.totalScrollRange
@@ -271,5 +284,6 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFa
         handleAlphaOnTitle(percentage)
         handleToolbarTitleVisibility(percentage)
         handleFloatBarVisibility(percentage)
+        handleTitleBackgroud(percentage)
     }
 }

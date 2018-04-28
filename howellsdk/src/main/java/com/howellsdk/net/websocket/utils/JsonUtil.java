@@ -96,14 +96,16 @@ public class JsonUtil {
                 return new WSRes(WSRes.WS_TYPE.ALARM_ALIVE,res);
             }
             case 0x0003:{ //s->c  c need to send ask back;
+                try{
                 if (obj.getJSONObject("Request").getJSONObject("PushMessage")!=null){
                     WSRes.PushMessage ps = parsePushMessageJsonObject(message,cseq,obj.getJSONObject("Request"));
                     return new WSRes(WSRes.WS_TYPE.PUSH_MESSAGE,ps);
-                }
+                }}catch(JSONException e){e.printStackTrace();}catch (Exception e){e.printStackTrace();}
+                try{
                 if (obj.getJSONObject("Request").getJSONObject("EventNotify")!=null){
                     WSRes.AlarmEvent event = parseAlarmEventJsonObject(message,cseq,obj.getJSONObject("Request"));
                     return new WSRes(WSRes.WS_TYPE.ALARM_EVENT,event);
-                }
+                }}catch (JSONException e){e.printStackTrace();}catch (Exception e){e.printStackTrace();}
             }
             case 0x0004:{//s->c
                 WSRes.AlarmNotice notice = parseAlarmNoticeJsonObject(message,cseq,obj.getJSONObject("Request"));

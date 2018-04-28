@@ -52,15 +52,15 @@ class FacePresenter:BasePresenter(),IFaceContract.IPresenter {
 
                     var id = String(Base64.decode(record.faceAppendData.pictureId,0))
                     Log.i("123"," url   id=$id")
-                    bean.imageUrl1   = "${Config.IP}:8800/howell/ver10/Medium/Pictures/${record.faceAppendData.pictureId}/Data"
-                    bean.imageUrl2   = "${Config.IP}:8800/howell/ver10/Medium/Pictures/${record.faceSnapData.facePictureId}/Data"
+                    bean.imageUrl1   = "http://${Config.IP}:8800/howell/ver10/Medium/Pictures/${record.faceAppendData.pictureId}/Data"
+                    bean.imageUrl2   = "http://${Config.IP}:8800/howell/ver10/Medium/Pictures/${record.faceSnapData.facePictureId}/Data"
                     Log.i("123","url=${bean.imageUrl1}")
                     bean.userName    = record.faceAppendData.name
                     bean.sex         = record.faceAppendData.sex?:""
                     bean.phone       = record.faceAppendData.phone?:""
                     bean.birthday    = record.faceAppendData.birthDate?:""
                     bean.city        = record.faceAppendData.city?:""
-                    bean.age         = record.faceSnapData.feature.age?:0
+                    bean.age         = if(record.faceSnapData.feature.age in 1..100)record.faceSnapData.feature.age else 0
                     bean.group       = record.faceSet.name
                     return@map bean
                 }
@@ -97,21 +97,21 @@ class FacePresenter:BasePresenter(),IFaceContract.IPresenter {
                     Log.i("123","recordList=$recordList")
                     recordList.eventRecords[0]
                 }.map { record->
-                    var bean = FaceBean(record.componentId)
-                    bean.msgTime     = record.alarmTime
+                    var bean = FaceBean(record.componentId?:"")
+                    bean.msgTime     = Util.ISODateString2Date(record.alarmTime)?:""
                     bean.similarity  = record.confidence?:0
-                    bean.name        = record.name
+                    bean.name        = record.name?:""
                     bean.description = record.description?:""
 
-                    bean.imageUrl1   = record.faceAppendData.pictureId
-                    bean.imageUrl2   = record.faceSnapData.facePictureId
-                    bean.userName    = record.faceAppendData.name
+                    bean.imageUrl1   = "http://${Config.IP}:8800/howell/ver10/Medium/Pictures/${record.faceAppendData.pictureId}/Data"
+                    bean.imageUrl2   = "http://${Config.IP}:8800/howell/ver10/Medium/Pictures/${record.faceSnapData.facePictureId}/Data"
+                    bean.userName    = record.faceAppendData.name?:""
                     bean.sex         = record.faceAppendData.sex?:""
                     bean.phone       = record.faceAppendData.phone?:""
                     bean.birthday    = record.faceAppendData.birthDate?:""
                     bean.city        = record.faceAppendData.city?:""
-                    bean.age         = record.faceSnapData.feature.age?:0
-                    bean.group       = record.faceSet.name
+                    bean.age         = if(record.faceSnapData.feature.age in 1..100)record.faceSnapData.feature.age else 0
+                    bean.group       = record.faceSet.name?:""
                     return@map bean
                 }
                 .subscribeOn(Schedulers.io())
