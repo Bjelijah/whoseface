@@ -8,9 +8,9 @@ import android.support.v7.widget.Toolbar
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.howell.adapter.DetailRecyclerViewAdapter
-import com.howell.adapter.HistroyRecyclerViewAdapter
 import com.howell.bean.DetailBean
 import com.howell.whoseface.R
+import com.howellsdk.utils.Util
 import java.util.*
 
 class DetailedActivity :AppCompatActivity(){
@@ -43,7 +43,10 @@ class DetailedActivity :AppCompatActivity(){
         for(i in 0..Random(System.currentTimeMillis()).nextInt(20)){
             var b = DetailBean("")
             var v = Random().nextInt(2000)
-            b.description = "来宾在二楼衣帽间, 产生一笔${v}元的消费记录"
+            b.value = v
+            b.shopName = "二楼衣帽间"
+            b.number = 5263
+            b.time = Util.Date2String(Date())
             list.add(b)
         }
         mRv.layoutManager = LinearLayoutManager(this)

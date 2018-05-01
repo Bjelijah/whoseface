@@ -32,26 +32,26 @@
 
 
                 >
-
+                <!--android:src="@drawable/face1"-->
                 <ImageView
                     android:id="@+id/face_face1"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/face1"
+
                     android:scaleType="centerCrop"
                     />
 
                 <android.support.v4.widget.Space
                     android:layout_width="2dp"
                     android:layout_height="match_parent" />
-
+                <!--android:src="@drawable/face2"-->
                 <ImageView
                     android:id="@+id/face_face2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/face2"
+
                     android:scaleType="centerCrop"/>
 
             </LinearLayout>
@@ -476,12 +476,13 @@
 
     <!--app:border_color="@android:color/white"-->
     <!--app:border_width="2dp"-->
+    <!-- android:src="@drawable/face1"-->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/face_circle_iv"
         android:layout_width="@dimen/image_width"
         android:layout_height="@dimen/image_width"
         android:layout_gravity="center_horizontal"
-        android:src="@drawable/face1"
+
         app:civ_border_color="@color/white"
         app:civ_border_width="2dp"
         app:finalHeight="@dimen/image_final_width"

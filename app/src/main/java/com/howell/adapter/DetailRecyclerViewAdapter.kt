@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.howell.bean.DetailBean
 import com.howell.whoseface.R
-import java.util.ArrayList
+import java.util.*
 
 class DetailRecyclerViewAdapter() :RecyclerView.Adapter<DetailRecyclerViewAdapter.ViewHoder>(){
     var mList :ArrayList<DetailBean>?=null
@@ -39,10 +39,16 @@ class DetailRecyclerViewAdapter() :RecyclerView.Adapter<DetailRecyclerViewAdapte
     }
 
     private fun initView(h:ViewHoder,bean:DetailBean?){
-        h.mDescription.text = bean?.description
+        h.cardNumber.text = "${bean?.number}"
+        h.time.text = bean?.time
+        h.value.text = "${bean?.value}"
+        h.shop.text = bean?.shopName
     }
 
     inner class ViewHoder(v: View):RecyclerView.ViewHolder(v){
-        var mDescription :TextView = v.findViewById(R.id.item_detail_description)
+        var cardNumber :TextView = v.findViewById(R.id.item_detail_number)
+        var time:TextView = v.findViewById(R.id.item_detail_time)
+        var value :TextView = v.findViewById(R.id.item_detail_value)
+        var shop:TextView = v.findViewById(R.id.item_detail_shop)
     }
 }

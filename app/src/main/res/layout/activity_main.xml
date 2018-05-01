@@ -78,7 +78,7 @@
             android:id="@+id/main_btn_test"
             android:text="text"
             android:textColor="@color/textColor"
-
+            android:visibility="gone"
             />
 
     </LinearLayout>
