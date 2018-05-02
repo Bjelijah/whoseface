@@ -809,9 +809,9 @@ public interface HWHttpApi {
     Observable<FaceDetectEventRecordList> queryFaceDetectEventRecords(
             @Header("Cookie")                  String cookie,
             @Query("BeginTime")    @NonNull    String begTime,
-            @Query("EndTime ")     @NonNull    String endTime,
+            @Query("EndTime")      @NonNull    String endTime,
             @Query("ComponentId")  @Nullable   String componentId,
-            @Query("EventType ")   @Nullable   String eventType,
+            @Query("EventType")    @Nullable   String eventType,
             @Query("PageIndex")    @Nullable   Integer pageIndex,
             @Query("PageSize")     @Nullable   Integer pageSize
     );

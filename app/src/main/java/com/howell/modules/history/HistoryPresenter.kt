@@ -24,7 +24,7 @@ class HistoryPresenter:BasePresenter(),IHistoryContract.IPresenter {
     }
 
     override fun queryFaceList(id: String, begTime: String, endTime: String) {
-        Log.i("123","query face list")
+        Log.i("123","query face list begTime=$begTime   endTime = $endTime")
         ApiManager.getInstance().getHWHttpService(Config.URL)
                 .queryFaceDetectEventRecords(
                         ApiManager.HttpHelp.getCookie(ApiManager.HttpHelp.Type.FACE_EVENTS_RECORDS),

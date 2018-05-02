@@ -99,7 +99,7 @@ class HistoryActiviy:AppCompatActivity() ,HistroyRecyclerViewAdapter.OnItemClick
 //        time = Util.Date2ISODateString(d)
 //        var date = Util.ISODateString2ISODate(time)
         var db = Util.plusMonth(d,-1)
-        var df = Util.plusMinute(d,2)
+        var df = Util.plusMinute(d,5)
         var timeb = Util.Date2ISODateString(db)
         var timef = Util.Date2ISODateString(df)
         Log.i("123","timeb=$timeb   timef=$timef")

@@ -18,6 +18,7 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
+import com.bumptech.glide.Glide
 import com.howell.action.Config
 import com.howell.bean.FaceBean
 import com.howell.modules.face.FacePresenter
@@ -114,6 +115,7 @@ class FaceActivity:AppCompatActivity() ,AppBarLayout.OnOffsetChangedListener,IFa
         p.load(bean.imageUrl1).into(mIvFace1)
         p.load(bean.imageUrl1).into(mIvCircle)
         p.load(bean.imageUrl2).into(mIvFace2)
+
 
         ////
         mTvMainTitle.text = "${mBean?.similarity}%"
