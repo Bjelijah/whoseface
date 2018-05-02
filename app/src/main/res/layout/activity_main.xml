@@ -21,21 +21,58 @@
         android:layout_marginBottom="15dp"
         />
 
-    <ImageView
-        android:id="@+id/main_iv"
+
+    <io.codetail.widget.RevealFrameLayout
         android:layout_width="300dp"
         android:layout_height="200dp"
-        android:layout_below="@id/main_title"
+        android:id="@+id/main_revealFrame"
         android:layout_marginTop="40dp"
         android:layout_centerHorizontal="true"
-        />
+        android:layout_below="@id/main_title"
+        >
+
+        <ImageView
+            android:id="@+id/main_iv_1"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:visibility="visible"
+            android:background="@color/colorAccent"/>
+
+        <ImageView
+            android:id="@+id/main_iv_2"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:visibility="visible"
+            android:background="@color/main_bk"/>
+
+        <ImageView
+            android:id="@+id/main_iv_3"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:visibility="visible"
+            android:background="@color/main_bk"/>
+
+        <ImageView
+            android:id="@+id/main_iv_4"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:visibility="visible"
+            android:background="@color/main_bk"/>
+
+    </io.codetail.widget.RevealFrameLayout>
+
+
+
+
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_centerInParent="true"
-        android:layout_below="@id/main_iv"
+        android:layout_below="@id/main_revealFrame"
         android:layout_marginTop="50dp">
         <android.support.v4.widget.Space
             android:layout_width="wrap_content"
